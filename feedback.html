@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FeedPerks - Share Your Experience</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <h1>FeedPerks</h1>
+            <nav>
+                <a href="index.html">Discover</a>
+                <a href="register.html">Register Business</a>
+                <a href="feedback.html" class="active">Feedback</a>
+                <a href="profile.html">Profile</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section id="feedback" class="feedback-section">
+            <h2>Share Your Experience</h2>
+            <div class="feedback-container">
+                <div class="business-id-input">
+                    <input type="text" id="businessIdInput" placeholder="Enter Business ID" pattern="BIZ\d{4}" required>
+                    <button onclick="verifyBusinessId()" class="verify-btn">
+                        <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
+
+                <div id="feedbackForm" class="rating-section" style="display: none;">
+                    <h3>How was your experience?</h3>
+                    <div class="emoji-container">
+                        <div class="emoji-option" onclick="selectEmoji('amazing')">
+                            <span>😍</span>
+                            <p>Amazing</p>
+                        </div>
+                        <div class="emoji-option" onclick="selectEmoji('good')">
+                            <span>😊</span>
+                            <p>Good</p>
+                        </div>
+                        <div class="emoji-option" onclick="selectEmoji('okay')">
+                            <span>😐</span>
+                            <p>Okay</p>
+                        </div>
+                        <div class="emoji-option" onclick="selectEmoji('bad')">
+                            <span>😕</span>
+                            <p>Bad</p>
+                        </div>
+                        <div class="emoji-option" onclick="selectEmoji('terrible')">
+                            <span>😡</span>
+                            <p>Terrible</p>
+                        </div>
+                    </div>
+                    
+                    <div class="feedback-text">
+                        <textarea placeholder="Tell us more about your experience (optional)"></textarea>
+                    </div>
+
+                    <button onclick="submitFeedback()" class="submit-btn">
+                        <i class="fas fa-paper-plane"></i> Submit Feedback
+                    </button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 FeedPerks. All rights reserved.</p>
+    </footer>
+
+    <script>
+        let selectedEmoji = '';
+
+        function verifyBusinessId() {
+            const businessId = document.getElementById('businessIdInput').value;
+            if (businessId.match(/BIZ\d{4}/)) {
+                document.getElementById('feedbackForm').style.display = 'block';
+                document.getElementById('feedbackForm').scrollIntoView({ behavior: 'smooth' });
+            } else {
+                alert('Please enter a valid Business ID (Format: BIZxxxx)');
+            }
+        }
+
+        function selectEmoji(type) {
+            selectedEmoji = type;
+            document.querySelectorAll('.emoji-option').forEach(option => {
+                option.classList.remove('selected');
+            });
+            document.querySelector(`.emoji-option[onclick*="${type}"]`).classList.add('selected');
+        }
+
+        function submitFeedback() {
+            if (!selectedEmoji) {
+                alert('Please select an emoji rating');
+                return;
+            }
+            
+            // Show success message
+            alert('Thank you for your feedback!');
+            
+            // Reset form
+            selectedEmoji = '';
+            document.querySelector('textarea').value = '';
+            document.querySelectorAll('.emoji-option').forEach(option => {
+                option.classList.remove('selected');
+            });
+            document.getElementById('businessIdInput').value = '';
+            document.getElementById('feedbackForm').style.display = 'none';
+        }
+    </script>
+</body>
+</html>

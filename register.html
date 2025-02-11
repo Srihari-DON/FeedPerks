@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FeedPerks - Register Business</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <h1>FeedPerks</h1>
+            <nav>
+                <a href="index.html">Discover</a>
+                <a href="register.html" class="active">Register Business</a>
+                <a href="feedback.html">Feedback</a>
+                <a href="profile.html">Profile</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="registration-section">
+            <h2>Quick Business Registration</h2>
+            <div class="registration-container">
+                <form id="quickRegisterForm" class="quick-register-form">
+                    <div class="form-group">
+                        <label for="businessName">Business Name</label>
+                        <input type="text" id="businessName" required placeholder="Enter your business name">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="location">Location</label>
+                        <input type="text" id="location" required placeholder="Enter your business location">
+                    </div>
+
+                    <button type="submit" class="submit-btn">
+                        <i class="fas fa-store"></i> Generate Business ID
+                    </button>
+                </form>
+
+                <div id="resultContainer" class="result-container" style="display: none;">
+                    <div class="business-id-card">
+                        <h3>Your Business ID</h3>
+                        <div class="business-id"></div>
+                        <p class="id-instructions">Share this ID with your customers to receive feedback</p>
+                    </div>
+                    
+                    <div class="qr-section">
+                        <h3>Business QR Code</h3>
+                        <div id="qrcode" class="qr-code"></div>
+                        <button id="downloadQR" class="download-btn">
+                            <i class="fas fa-download"></i> Download QR Code
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 FeedPerks. All rights reserved.</p>
+    </footer>
+
+    <script>
+        document.getElementById('quickRegisterForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const businessName = document.getElementById('businessName').value;
+            const location = document.getElementById('location').value;
+            
+            // Generate a simple business ID
+            const businessId = 'BIZ' + Math.floor(Math.random() * 10000).toString().padStart(4, '0');
+            
+            // Display the business ID
+            document.querySelector('.business-id').textContent = businessId;
+            
+            // Generate QR code
+            document.getElementById('qrcode').innerHTML = '';
+            new QRCode(document.getElementById('qrcode'), {
+                text: businessId,
+                width: 200,
+                height: 200
+            });
+            
+            // Show the result container
+            document.getElementById('resultContainer').style.display = 'block';
+            
+            // Smooth scroll to results
+            document.getElementById('resultContainer').scrollIntoView({ behavior: 'smooth' });
+        });
+
+        document.getElementById('downloadQR').addEventListener('click', function() {
+            const qrImage = document.getElementById('qrcode').querySelector('img');
+            const link = document.createElement('a');
+            link.download = 'business-qr.png';
+            link.href = qrImage.src;
+            link.click();
+        });
+    </script>
+</body>
+</html>
